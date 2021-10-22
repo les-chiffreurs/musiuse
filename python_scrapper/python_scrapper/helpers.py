@@ -1,6 +1,6 @@
 import requests
-import requests.exceptions
 from bs4 import BeautifulSoup
+from datetime import datetime
 
 
 def get_warnings(url):
@@ -22,6 +22,10 @@ def get_warnings(url):
             station_warnings.append(warning)
 
     return station_warnings
+
+def get_current_time():
+    now = datetime.now()
+    return now.strftime("%d/%m/%Y %H:%M:%S")
 
 
 
