@@ -1,0 +1,26 @@
+version: "3.1"
+
+services:
+  musiuse-db:
+    image: mysql
+    hostname: musiuse-db
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    volumes:
+      - data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: fFZ37tuLPpGkHGZG
+    networks:
+      - musiuse
+
+  python_scrapper:
+    build: .
+    networks:
+      - musiuse
+
+volumes:
+  data:
+
+networks:
+  musiuse:
+    name: musiuse

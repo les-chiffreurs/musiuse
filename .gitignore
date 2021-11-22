@@ -8,6 +8,12 @@ npm-debug.*
 *.mobileprovision
 *.orig.*
 web-build/
+python_scrapper/env
 
 # macOS
 .DS_Store
+
+#python specific
+__pycache__/
+venv/
+.idea/
