@@ -13,16 +13,16 @@ services:
     ports:
       - 3306:3306
     networks:
-      - mysql
+      - musiuse
 
   python_scrapper:
     build: .
     networks:
-      - mysql
+      - musiuse
 
 volumes:
   data:
 
 networks:
-  mysql:
-    name: mysql
+  musiuse:
+    name: musiuse
