@@ -1,7 +1,29 @@
 import requests
 from bs4 import BeautifulSoup
 from datetime import datetime
+import sqlite3
+import logging
 
+logging.basicConfig(level = logging.INFO)
+
+# set db name
+db_name = "warnings.db"
+
+# initialize "warnings" table
+create_warning_table_sql = """
+CREATE TABLE IF NOT EXISTS warnings
+(
+    location TEXT NOT NULL,
+    warning TEXT NOT NULL,
+    time TEXT NOT NULL
+)
+"""
+
+# add warnings to table
+add_warnings_sql = """
+INSERT into warnings
+VALUES (?, ?, ?)
+"""
 
 def get_warnings(url):
     station_warnings = []
@@ -26,6 +48,19 @@ def get_warnings(url):
 def get_current_time():
     now = datetime.now()
     return now.strftime("%d/%m/%Y %H:%M:%S")
+
+def init_database():
+    con = sqlite3.connect(db_name)
+    cur = con.cursor()
+
+    # create table
+    cur.execute(create_warning_table_sql)
+
+    return con, cur
+    
+
+
+    
 
 
 
