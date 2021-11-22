@@ -1,3 +1,5 @@
+import logging
+
 from helpers import (
     add_warnings_sql,
     finalize_database,
@@ -13,11 +15,12 @@ def main():
 
     cnx, cur = init_database()
     date = get_current_time()
+    logging.info("scraping {} at time {}".format(url, date))
     field = [w + (date,) for w in warnings]
     for f in field:
-        print(add_warnings_sql.format(*f))
         cur.execute(add_warnings_sql.format(*f))
 
+    logging.info("writing {} entries to database".format(len(field)))
     cnx.commit()
 
     finalize_database(cnx, cur)

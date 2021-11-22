@@ -55,6 +55,7 @@ def get_current_time():
 
 
 def init_database():
+    logging.info("connecting to mysql:3306...")
     cnx = mysql.connector.connect(
         user="root",
         password="fFZ37tuLPpGkHGZG",
@@ -66,6 +67,7 @@ def init_database():
     cur = cnx.cursor()
 
     cur.execute(create_warning_table_sql)
+    logging.info("successfully initialized database connection")
 
     return cnx, cur
 
