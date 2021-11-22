@@ -1,1 +1,1 @@
-*/2 * * * * python3 /usr/local/python_scrapper
+*/15 4-6 * * * python3 /usr/local/python_scrapper
