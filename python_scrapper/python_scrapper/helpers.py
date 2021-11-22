@@ -7,9 +7,6 @@ from bs4 import BeautifulSoup
 
 logging.basicConfig(level=logging.INFO)
 
-# set db name
-db_name = "warnings.db"
-
 # initialize "warnings" table
 create_warning_table_sql = """
 CREATE TABLE IF NOT EXISTS warnings
@@ -59,7 +56,7 @@ def init_database():
     cnx = mysql.connector.connect(
         user="root",
         password="fFZ37tuLPpGkHGZG",
-        host="mysql",
+        host="musiuse-db",
         port="3306",
         database="musiuse",
         charset="utf8",
