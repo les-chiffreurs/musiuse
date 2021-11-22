@@ -1,0 +1,29 @@
+version: "3.1"
+
+services:
+  mysql:
+    image: mysql
+    hostname: mysql
+    container_name: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    volumes:
+      - data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: fFZ37tuLPpGkHGZG
+    ports:
+      - 3306:3306
+    networks:
+      - mysql
+
+  python_scrapper:
+    build: .
+    networks:
+      - mysql
+
+volumes:
+  data:
+
+networks:
+  mysql:
+    name: mysql

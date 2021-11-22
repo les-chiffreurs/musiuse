@@ -1,20 +1,27 @@
-from helpers import get_warnings, get_current_time, init_database, add_warnings_sql
+from helpers import (
+    add_warnings_sql,
+    finalize_database,
+    get_current_time,
+    get_warnings,
+    init_database,
+)
 
 
 def main():
     url = "https://zh.stwarn.ch/"
     warnings = get_warnings(url)
 
-    con, cur = init_database()
+    cnx, cur = init_database()
     date = get_current_time()
     field = [w + (date,) for w in warnings]
-    cur.executemany(add_warnings_sql, field)
+    for f in field:
+        print(add_warnings_sql.format(*f))
+        cur.execute(add_warnings_sql.format(*f))
 
-    cur.execute("SELECT warning FROM warnings WHERE location='Unterer Zürichsee'")
-    print(cur.fetchall())
-    con.commit()
-    con.close()
-    
+    cnx.commit()
 
-if __name__ == '__main__':
+    finalize_database(cnx, cur)
+
+
+if __name__ == "__main__":
     main()

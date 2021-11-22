@@ -1,10 +1,11 @@
+import logging
+from datetime import datetime
+
+import mysql.connector
 import requests
 from bs4 import BeautifulSoup
-from datetime import datetime
-import sqlite3
-import logging
 
-logging.basicConfig(level = logging.INFO)
+logging.basicConfig(level=logging.INFO)
 
 # set db name
 db_name = "warnings.db"
@@ -13,17 +14,19 @@ db_name = "warnings.db"
 create_warning_table_sql = """
 CREATE TABLE IF NOT EXISTS warnings
 (
-    location TEXT NOT NULL,
-    warning TEXT NOT NULL,
-    time TEXT NOT NULL
+    warn_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, 
+    location VARCHAR(255) NOT NULL,
+    warning VARCHAR(255) NOT NULL,
+    time DATETIME NOT NULL
 )
 """
 
 # add warnings to table
 add_warnings_sql = """
 INSERT into warnings
-VALUES (?, ?, ?)
+VALUES (NULL, "{}", "{}", "{}")
 """
+
 
 def get_warnings(url):
     station_warnings = []
@@ -34,7 +37,7 @@ def get_warnings(url):
         print("Unable to get content.")
         return station_warnings
 
-    content = BeautifulSoup(page.content, 'html.parser')
+    content = BeautifulSoup(page.content, "html.parser")
     tables = content.find_all("tr")
 
     for row in tables:
@@ -45,23 +48,28 @@ def get_warnings(url):
 
     return station_warnings
 
+
 def get_current_time():
     now = datetime.now()
-    return now.strftime("%d/%m/%Y %H:%M:%S")
+    return now.strftime("%Y-%m-%d %H:%M:%S")
+
 
 def init_database():
-    con = sqlite3.connect(db_name)
-    cur = con.cursor()
+    cnx = mysql.connector.connect(
+        user="root",
+        password="fFZ37tuLPpGkHGZG",
+        host="mysql",
+        port="3306",
+        database="musiuse",
+        charset="utf8",
+    )
+    cur = cnx.cursor()
 
-    # create table
     cur.execute(create_warning_table_sql)
 
-    return con, cur
-    
+    return cnx, cur
 
 
-    
-
-
-
-
+def finalize_database(cnx, cur):
+    cur.close()
+    cnx.close()
