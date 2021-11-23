@@ -7,6 +7,9 @@ RUN apt-get update && apt-get -y install cron python3 python3-venv python3-pip t
 ENV TZ=Europe/Zurich
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
+RUN update-ca-certificates --fresh
+ENV SSL_CERT_DIR /etc/ssl/certs
+
 COPY python_scrapper /usr/local/python_scrapper
 COPY requirements.txt /usr/local/requirements.txt
 

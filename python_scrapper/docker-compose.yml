@@ -17,6 +17,8 @@ services:
 
   python_scrapper:
     build: .
+    volumes:
+      - /store/apps/musiuse/scrap-data:/data
     networks:
       - musiuse
 
