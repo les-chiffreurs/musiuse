@@ -1,1 +1,1 @@
-*/15 4-6 * * * python3 /usr/local/python_scrapper > /proc/1/fd/1 2>/proc/1/fd/2
+*/15 5-7 * * * python3 /usr/local/python_scrapper > /proc/1/fd/1 2>/proc/1/fd/2
