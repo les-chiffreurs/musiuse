@@ -12,6 +12,8 @@ services:
       MYSQL_ROOT_PASSWORD: fFZ37tuLPpGkHGZG
     networks:
       - musiuse
+    ports:
+      - 33066:3306
 
   python_scrapper:
     build: .
