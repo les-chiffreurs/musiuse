@@ -1,4 +1,5 @@
 import logging
+import urllib
 from datetime import datetime
 
 import mysql.connector
@@ -14,14 +15,15 @@ CREATE TABLE IF NOT EXISTS warnings
     warn_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, 
     location VARCHAR(255) NOT NULL,
     warning VARCHAR(255) NOT NULL,
-    time DATETIME NOT NULL
+    time DATETIME NOT NULL,
+    webcam VARCHAR(255)
 )
 """
 
 # add warnings to table
 add_warnings_sql = """
 INSERT into warnings
-VALUES (NULL, "{}", "{}", "{}")
+VALUES (NULL, "{}", "{}", "{}", "{}")
 """
 
 
@@ -46,9 +48,19 @@ def get_warnings(url):
     return station_warnings
 
 
+def get_webcam(url, target):
+    logging.info("downloading {} to {}".format(url, target))
+    urllib.request.urlretrieve(url, target)
+
+
 def get_current_time():
     now = datetime.now()
     return now.strftime("%Y-%m-%d %H:%M:%S")
+
+
+def time_no_whitespace(time):
+    t = datetime.strptime(time, "%Y-%m-%d %H:%M:%S")
+    return t.strftime("%Y-%m-%d_%H-%M-%S")
 
 
 def init_database():
