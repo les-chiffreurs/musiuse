@@ -1,6 +1,11 @@
 FROM ubuntu:latest
 
-RUN apt-get update && apt-get -y install cron python3 python3-venv python3-pip
+ENV DEBIAN_FRONTEND noninteractive
+
+RUN apt-get update && apt-get -y install cron python3 python3-venv python3-pip tzdata
+
+ENV TZ=Europe/Zurich
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 COPY python_scrapper /usr/local/python_scrapper
 COPY requirements.txt /usr/local/requirements.txt
